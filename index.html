@@ -1,35 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>TR-System</title>
-</head>
-<body>
+[port.TR.morphSEQ]
+version = 1.0
+type = "sequence"
+zero = 0
 
-<h1>TR-System</h1>
-<p>Axis: Z</p>
-<p>Vector: 6e0</p>
-<p>Zone: 54–74</p>
+seq.rule = "TR-Fahne Spiegelbild → Tropfen → Wellen → Licht → Event-Horizon → Morphont"
 
-<h2>Module</h2>
-<ul>
-    <li>port.win</li>
-    <li>port.send</li>
-    <li>port.save</li>
-    <li>port.load</li>
-</ul>
+seq.step.1 = "mirror-flag"
+seq.step.2 = "drop"
+seq.step.3 = "ripple"
+seq.step.4 = "light-transition"
+seq.step.5 = "event-horizon"
+seq.step.6 = "morphont-rise"
+seq.step.7 = "flag-stabilize"
 
-<h2>EX</h2>
-<ul>
-    <li>port.PQ0</li>
-    <li>PQ.EX</li>
-    <li>port.ROM</li>
-    <li>port.ANKER</li>
-    <li>port.API</li>
-</ul>
-
-<h2>Matrix</h2>
-<p>9×9 Epochenmatrix</p>
-
-</body>
-</html>
+bind.move   = "MOVE"
+bind.pq     = "port.PQ0"
+bind.ex     = "PQ.EX"
+bind.morph  = "Morphont"
+bind.room   = "Z.room.CORE"
+bind.screen = "screen0"
