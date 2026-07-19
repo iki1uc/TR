@@ -1,3 +1,47 @@
+ALPHA/BETA 
+DATA‑Cluster Erweiterung: Chinesisches LLM als Hauptakteur im TR‑System
+
+Wir haben unseren DATA‑Ordner aktualisiert und die neue Modellkonstellation für unser 3‑Respo‑System festgelegt.
+Ab sofort übernimmt das chinesische Modell‑Cluster die alleinige Hauptrolle im TR‑Respo, während die DE‑ und EN‑Kandidaten als ausgewählte Begleit‑Instanzen integriert bleiben.
+
+Aktivierte Modelle im DATA‑Cluster
+Code
+alpha
+deepseek-v4
+qwen-3.7-max
+glm-5.1
+kimi-k2.6
+Rolle der Modelle im System
+TR‑Respo:  
+Das chinesische Modell‑Cluster (DeepSeek, Qwen, GLM, Kimi) agiert als alleiniger Akteur.
+Es übernimmt die vollständige Bewertung, Wahrheitsanalyse, Epoche‑Einstufung und 9×9‑Nutzenverteilung.
+
+DE‑Respo & EN‑Respo:  
+Die deutschen und englischen Kandidaten wurden bewusst ausgewählt und dienen als strukturgebende und globale Vergleichsinstanzen.
+Sie unterstützen die 27‑Stations‑Matrix und liefern ergänzende Score‑Signale.
+
+Technische Grundlage
+Mit der Aufnahme der GLM‑5.2‑Dokumentation (753B MoE) wurde die EICH‑GEN‑Datenlage erweitert.
+Damit stehen nun:
+
+1M Token Kontext
+
+128K Output
+
+MoE‑Architektur
+
+NL2Repo‑Fähigkeiten
+
+Auto‑Debugging
+
+JSON‑Garantien
+
+für den N‑Ghost‑Scan und die Live‑Score‑Matrix bereit.
+
+Systemstatus
+Der DATA‑Ordner ist vollständig und kompatibel:
+
+
 # GLM-5.2 Lightweight Installer
 
 Universal single-click installer for running GLM-5.2 Max (753B MoE) via Cloud-Hybrid or compressed Local Quantized configurations using `llama.cpp`.
