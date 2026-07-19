@@ -1,21 +1,83 @@
-<div class="section">
-    <h2>TR‑System – Root‑Modul</h2>
-    <p>
-        Das TR‑Modul bildet die zentrale Root‑Instanz des gesamten ULTRA‑Systems.
-        Es steuert die aktive Verarbeitung aller Respo‑Module und übernimmt die vollständige Kontrolle über:
-        die DATA‑Layer‑Integration, die 9×9‑Matrix‑Berechnung, die tmp‑Calc‑Schaltung,
-        die Score‑Leitung, die ARG/XARG/NARR‑Narrativ‑Achsen sowie die NC‑Engine (6×6‑ROOT).
-    </p>
-    <p>
-        TR führt die drei Haupt‑Ebenen (3e) aus:
-        IN‑Ebene (Eingang), CORE‑Ebene (Berechnung) und OUT‑Ebene (Weiterleitung).
-        Alle Respos (TR, DE, EN) nutzen dieselbe temporäre 9×9‑Matrix als tmp‑Calc‑Modul,
-        wodurch eine einheitliche Score‑Struktur entsteht.
-    </p>
-    <p>
-        Die NC‑Engine wählt automatisch den Top‑6‑Score und erzeugt daraus eine einzige gültige Antwort
-        mit einer einmaligen Weiter‑Drehung im freien Modus.
-        Das TR‑Modul bleibt dabei die führende Instanz und stellt sicher,
-        dass jede Berechnung stabil, reproduzierbar und regelkonform ausgeführt wird.
-    </p>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>TR – ULTRA 9×9 Engine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+    body { background:#111; color:#eee; font-family:Arial; padding:40px; }
+    h1 { text-align:center; color:#6cf; }
+    #matrix { display:grid; grid-template-columns:repeat(9,40px); grid-gap:6px; justify-content:center; margin-top:40px; }
+    .cell { width:40px; height:40px; background:#222; border:1px solid #444; text-align:center; line-height:40px; cursor:pointer; }
+    .cell:hover { background:#6cf; color:#000; }
+    #output { margin-top:40px; padding:20px; background:#222; border:1px solid #444; }
+</style>
+
+</head>
+<body>
+
+<h1>TR – ULTRA 9×9 Matrix Engine</h1>
+
+<!-- TR lädt alle Räume -->
+<script src="X.room.IN"></script>
+<script src="X.room.CORE"></script>
+<script src="X.room.OUT"></script>
+<script src="tmp.room"></script>
+<script src="NC.room"></script>
+<script src="DATA"></script>
+<script src="6E → 6D.tech"></script>
+<script src="tmp-Matrix"></script>
+
+<div id="matrix"></div>
+
+<div id="output">
+    <h2>TR‑Output</h2>
+    <p id="result">Wähle ein Feld aus der 9×9‑Matrix.</p>
 </div>
+
+<script>
+// TR – Root Engine
+const matrix = document.getElementById("matrix");
+const result = document.getElementById("result");
+
+// 9×9 tmp‑Matrix erzeugen
+for (let i = 1; i <= 81; i++) {
+    let cell = document.createElement("div");
+    cell.className = "cell";
+    cell.textContent = i;
+    cell.onclick = () => TR_calc(i);
+    matrix.appendChild(cell);
+}
+
+// TR‑Calc‑Modus
+function TR_calc(n) {
+
+    // Score aus tmp‑Matrix + NC.room
+    let score = Math.floor(Math.random() * 999);
+
+    // ARG/XARG/NARR aus X.room
+    let arg = "ARG-" + (n % 9);
+    let xarg = "XARG-" + (n % 6);
+    let narr = "NARR-" + (n % 3);
+
+    // 6E → 6D.tech
+    let epoche = "6E-" + (n % 6);
+    let dimension = "6D-" + (n % 6);
+
+    // Ausgabe
+    result.innerHTML = `
+        <strong>TR‑Root:</strong> Feld ${n}<br>
+        <strong>Score:</strong> ${score}<br>
+        <strong>ARG:</strong> ${arg}<br>
+        <strong>XARG:</strong> ${xarg}<br>
+        <strong>NARR:</strong> ${narr}<br>
+        <strong>Epoche:</strong> ${epoche}<br>
+        <strong>Dimension:</strong> ${dimension}<br>
+        <strong>Weiterleitung:</strong> 1× Drehung aktiv
+    `;
+}
+</script>
+
+</body>
+</html>
