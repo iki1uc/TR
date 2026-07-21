@@ -1,63 +1,102 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>TR – System Core</title>
+
+<style>
+body {
+    background:#fff;
+    color:#00c8c8;
+    font-family:Consolas, monospace;
+    padding:20px;
+}
+.section {
+    margin-bottom:20px;
+    padding:10px;
+    border-left:4px solid #00c8c8;
+}
+</style>
+
 <script>
-// VISIT‑Tech‑Loader
+// TR-SYSTEM SCAN CORE
 
-window.VISIT = {
+const TR = {
 
-    path: "VISIT/",
-
-    nodes: [
-        "HH.room",
-        "verify.html",
-        "RESPO.json",
-        "9x9-Matrix",
-        "VEC.js",
-        "start.vector"
+    folders: [
+        "DATA/",
+        "EX/",
+        "VISIT/",
+        "NC.room",
+        "SCAN.language",
+        "start.vector",
+        "9×9-Matrix",
+        "port.TR.flagRipple"
     ],
 
-    tech: {
-        active: true,
-        mode: "visitor-tech",
-        bind: "HH→TR",
-        ghost: "sync",
-        evo: "run",
-        pipeline: "soft-bind"
-    },
+    visitNodes: [
+        "VISIT/HH.room",
+        "VISIT/HH.activate",
+        "VISIT/verify.html",
+        "VISIT/RESPO.json",
+        "VISIT/9×9-Matrix",
+        "VISIT/VEC.js",
+        "VISIT/start.vector"
+    ],
 
-    loadNode(name) {
+    scanFolder(path) {
         return {
-            file: name,
-            location: this.path + name,
-            status: "VISIT‑NODE",
-            techMode: this.tech.mode,
-            ghostSync: this.tech.ghost,
-            evoRun: this.tech.evo,
-            pipeline: this.tech.pipeline
+            path,
+            status: "OK",
+            type: path.includes("VISIT") ? "visitor-tech" : "core"
         };
     },
 
     scan() {
-        return this.nodes.map(n => this.loadNode(n));
+        return this.folders.map(f => this.scanFolder(f));
+    },
+
+    scanVisit() {
+        return this.visitNodes.map(v => ({
+            node: v,
+            status: "VISIT-NODE",
+            tech: "visitor-tech",
+            bind: "HH→TR"
+        }));
     }
 };
 </script>
 
-<div id="visitPanel"></div>
+</head>
+<body>
+
+<h1>TR – System Scan</h1>
+
+<div class="section">
+<h2>Kern‑Ordner</h2>
+<div id="core"></div>
+</div>
+
+<div class="section">
+<h2>VISIT‑Tech‑Nodes</h2>
+<div id="visit"></div>
+</div>
 
 <script>
-// VISIT‑Scan anzeigen
+document.getElementById("core").innerHTML =
+    TR.scan().map(c => `
+        <div>
+            <b>${c.path}</b> → ${c.status} (${c.type})
+        </div>
+    `).join("");
 
-const visit = VISIT.scan();
-
-document.getElementById("visitPanel").innerHTML =
-    visit.map(v => `
-        <div style="color:#0ff; margin-bottom:10px;">
-            <b>${v.file}</b><br>
-            Pfad: ${v.location}<br>
-            Status: ${v.status}<br>
-            Tech‑Modus: ${v.techMode}<br>
-            Ghost‑Sync: ${v.ghostSync}<br>
-            EVO‑RUN: ${v.evoRun}<br>
-            Pipeline: ${v.pipeline}
+document.getElementById("visit").innerHTML =
+    TR.scanVisit().map(v => `
+        <div>
+            <b>${v.node}</b> → ${v.status} (${v.tech}, Bind: ${v.bind})
         </div>
     `).join("");
 </script>
+
+</body>
+</html>
