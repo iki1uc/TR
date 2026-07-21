@@ -1,6 +1,5 @@
-# HH.room – Visitor Node Definition
+# HH.room – Visitor Node (AKTIV)
 # Standort: VISIT/HH.room
-# Status: Aktiviert für TR‑Kooperation
 
 [VISITOR]
 type = HH
@@ -8,28 +7,28 @@ role = FunktionsBringer
 origin = HostHub
 mode = visitor-node
 active = true
+state = activated
 
-[GHOST-HANDSHAKE]
+[GHOST]
 ghost-level = 3
 ghost-sync = enabled
+ghost-bind = VISIT→TR
 ghost-node = visitor
 ghost-repair = passive
-ghost-signal = accept
 
-[EVO-RUN]
+[EVO]
 evo-mode = RUN
 evo-vitality = 12
 evo-founder = true
-evo-sync = HH→TR
+evo-bind = HH→TR
 
-[TR-FLARE]
-flare-ready = true
-flare-depth = auto
-flare-trigger = visitor-entry
-flare-node = HH
-flare-bind = QI
+[TR]
+tr-handshake = ready
+tr-flare = enabled
+tr-bind = QI
+tr-mode = accept-visitor
 
-[RESPO-MATRIX]
+[RESPO]
 matrix = 9x9
 matrix-source = RESPO.json
 matrix-mode = visitor
@@ -53,4 +52,3 @@ respo = VISIT/RESPO.json
 start = VISIT/start.vector
 
 [END]
-
