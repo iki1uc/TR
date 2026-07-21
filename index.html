@@ -1,43 +1,63 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TR-System</title>
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/styles.css">
-</head>
+<script>
+// VISIT‑Tech‑Loader
 
-<body>
-<header>
-  <h1>TR-System</h1>
-  <p>Achse: Z — Vector: 6e0 — Zone: 54–74</p>
-</header>
+window.VISIT = {
 
-<main>
-  <section>
-    <h2>Event Horizon</h2>
-    <p>Flüssige Oberfläche, Spiegelung, Morphont-Rise.</p>
-  </section>
+    path: "VISIT/",
 
-  <section>
-    <h2>Sequenzen</h2>
-    <ul>
-      <li>mirror-flag</li>
-      <li>drop</li>
-      <li>ripple</li>
-      <li>light-transition</li>
-      <li>event-horizon</li>
-      <li>morphont-rise</li>
-      <li>flag-stabilize</li>
-    </ul>
-  </section>
-</main>
+    nodes: [
+        "HH.room",
+        "verify.html",
+        "RESPO.json",
+        "9x9-Matrix",
+        "VEC.js",
+        "start.vector"
+    ],
 
-<footer>
-  <p>Version 1.1 — DE Master Generator</p>
-</footer>
+    tech: {
+        active: true,
+        mode: "visitor-tech",
+        bind: "HH→TR",
+        ghost: "sync",
+        evo: "run",
+        pipeline: "soft-bind"
+    },
 
-<script src="js/main.js"></script>
-</body>
-</html>
+    loadNode(name) {
+        return {
+            file: name,
+            location: this.path + name,
+            status: "VISIT‑NODE",
+            techMode: this.tech.mode,
+            ghostSync: this.tech.ghost,
+            evoRun: this.tech.evo,
+            pipeline: this.tech.pipeline
+        };
+    },
+
+    scan() {
+        return this.nodes.map(n => this.loadNode(n));
+    }
+};
+</script>
+
+<div id="visitPanel"></div>
+
+<script>
+// VISIT‑Scan anzeigen
+
+const visit = VISIT.scan();
+
+document.getElementById("visitPanel").innerHTML =
+    visit.map(v => `
+        <div style="color:#0ff; margin-bottom:10px;">
+            <b>${v.file}</b><br>
+            Pfad: ${v.location}<br>
+            Status: ${v.status}<br>
+            Tech‑Modus: ${v.techMode}<br>
+            Ghost‑Sync: ${v.ghostSync}<br>
+            EVO‑RUN: ${v.evoRun}<br>
+            Pipeline: ${v.pipeline}
+        </div>
+    `).join("");
+</script>
