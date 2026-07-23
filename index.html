@@ -6,15 +6,108 @@
 
 <style>
 body {
-    background:#fff;
+    background:#000;
     color:#00c8c8;
     font-family:Consolas, monospace;
     padding:20px;
 }
+
+/* Sections */
 .section {
     margin-bottom:20px;
     padding:10px;
     border-left:4px solid #00c8c8;
+}
+
+/* GEO */
+#geoBox {
+    width:100%;
+    height:240px;
+    background:#111;
+    border:2px solid #0f0;
+    border-radius:10px;
+    margin-bottom:20px;
+    position:relative;
+    overflow:hidden;
+}
+
+.geoDot {
+    width:10px;
+    height:10px;
+    background:#0f0;
+    border-radius:50%;
+    position:absolute;
+    animation:pulseDot 2s infinite ease-in-out;
+}
+@keyframes pulseDot {
+    0% { transform:scale(1); opacity:0.4; }
+    50% { transform:scale(1.8); opacity:1; }
+    100% { transform:scale(1); opacity:0.4; }
+}
+
+/* Effekt */
+#effBox {
+    width:100%;
+    height:160px;
+    background:#111;
+    border:2px solid #0ff;
+    border-radius:10px;
+    margin-bottom:20px;
+    position:relative;
+    overflow:hidden;
+}
+
+.effLine {
+    width:100%;
+    height:4px;
+    background:#0ff;
+    margin:6px 0;
+    animation:fluxLine 1.4s infinite linear;
+}
+@keyframes fluxLine {
+    0% { transform:translateX(-20px); opacity:0.3; }
+    50% { transform:translateX(20px); opacity:1; }
+    100% { transform:translateX(-20px); opacity:0.3; }
+}
+
+#beam {
+    width:6px;
+    height:100%;
+    background:#0ff;
+    position:absolute;
+    left:50%;
+    top:0;
+    opacity:0.4;
+    animation:beamPulse 2s infinite ease-in-out;
+}
+@keyframes beamPulse {
+    0% { opacity:0.2; }
+    50% { opacity:1; }
+    100% { opacity:0.2; }
+}
+
+/* 9x9 Matrix */
+#matrix99 {
+    width:100%;
+    background:#111;
+    border:2px solid #00c8c8;
+    border-radius:10px;
+    padding:10px;
+    display:grid;
+    grid-template-columns:repeat(9, 1fr);
+    gap:4px;
+}
+
+.cell {
+    background:#222;
+    border:1px solid #00c8c8;
+    height:28px;
+    animation:matrixPulse 3s infinite ease-in-out;
+}
+@keyframes matrixPulse {
+    0% { opacity:0.3; }
+    50% { opacity:1; }
+    100% { opacity:0.3; }
 }
 </style>
 
@@ -70,19 +163,94 @@ const TR = {
 </head>
 <body>
 
-<h1>TR – System Scan</h1>
+<h1>TR – System Core</h1>
+<p>TR‑Kernel + HH‑Bindung aktiv.</p>
 
+<!-- ⭐ GEO -->
+<div id="geoBox"></div>
+
+<!-- ⭐ Effekt -->
+<div id="effBox"><div id="beam"></div></div>
+
+<!-- ⭐ 9×9 Matrix -->
+<div class="section">
+<h2>9×9‑Matrix</h2>
+<div id="matrix99"></div>
+</div>
+
+<!-- ⭐ Kern-Ordner -->
 <div class="section">
 <h2>Kern‑Ordner</h2>
 <div id="core"></div>
 </div>
 
+<!-- ⭐ VISIT‑Tech‑Nodes -->
 <div class="section">
 <h2>VISIT‑Tech‑Nodes</h2>
 <div id="visit"></div>
 </div>
 
 <script>
+/* ⭐ GEO Doppel-Ring + Ghost Points */
+(function(){
+    const geo = document.getElementById("geoBox");
+
+    const count = 12;
+    const r1 = 80;  // 6e
+    const r2 = 120; // 6d
+
+    for(let i=0; i<count; i++){
+        const dot = document.createElement("div");
+        dot.className = "geoDot";
+        const angle = (i / count) * Math.PI * 2;
+        dot.style.left = (Math.cos(angle)*r1 + 160)+"px";
+        dot.style.top  = (Math.sin(angle)*r1 + 100)+"px";
+        geo.appendChild(dot);
+    }
+
+    for(let i=0; i<count; i++){
+        const dot = document.createElement("div");
+        dot.className = "geoDot";
+        const angle = (i / count) * Math.PI * 2;
+        dot.style.left = (Math.cos(angle)*r2 + 160)+"px";
+        dot.style.top  = (Math.sin(angle)*r2 + 100)+"px";
+        geo.appendChild(dot);
+    }
+
+    // Ghost Points
+    for(let i=0; i<12; i++){
+        const gp = document.createElement("div");
+        gp.className = "geoDot";
+        gp.style.background = "#0ff";
+        gp.style.opacity = "0.5";
+        gp.style.left = (Math.random()*300)+"px";
+        gp.style.top  = (Math.random()*180)+"px";
+        geo.appendChild(gp);
+    }
+})();
+
+/* ⭐ Effekt: Flux Tunnel */
+(function(){
+    const eff = document.getElementById("effBox");
+    for(let i=0; i<12; i++){
+        const line = document.createElement("div");
+        line.className = "effLine";
+        line.style.animationDelay = (i * 0.1)+"s";
+        eff.appendChild(line);
+    }
+})();
+
+/* ⭐ 9×9 Matrix */
+(function(){
+    const m = document.getElementById("matrix99");
+    for(let i=0; i<81; i++){
+        const cell = document.createElement("div");
+        cell.className = "cell";
+        m.appendChild(cell);
+    }
+})();
+
+/* ⭐ TR Scan */
 document.getElementById("core").innerHTML =
     TR.scan().map(c => `
         <div>
